@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>三角洲改枪码整理表</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f7f8;
+      --panel: #ffffff;
+      --ink: #172126;
+      --muted: #60717a;
+      --line: #dce5e8;
+      --accent: #126c67;
+      --accent-strong: #0c514d;
+      --chip: #e6f2f1;
+      --warn: #a96018;
+      --shadow: 0 18px 45px rgba(23, 33, 38, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Microsoft YaHei", "PingFang SC", system-ui, -apple-system, sans-serif;
+      background:
+        linear-gradient(180deg, rgba(18, 108, 103, 0.10), transparent 300px),
+        var(--bg);
+      color: var(--ink);
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0 44px;
+    }
+
+    header {
+      display: grid;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .source {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: right;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px 16px;
+      box-shadow: 0 8px 24px rgba(23, 33, 38, 0.06);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) 190px 170px auto;
+      gap: 10px;
+      align-items: center;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .field {
+      position: relative;
+    }
+
+    .field label {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fbfcfc;
+      color: var(--ink);
+      padding: 0 11px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(18, 108, 103, 0.14);
+    }
+
+    .ghost-button,
+    .copy-button {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fbfcfc;
+      color: var(--ink);
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .ghost-button {
+      height: 40px;
+      align-self: end;
+      padding: 0 14px;
+      white-space: nowrap;
+    }
+
+    .ghost-button:hover,
+    .copy-button:hover {
+      border-color: var(--accent);
+      color: var(--accent-strong);
+      background: var(--chip);
+    }
+
+    .table-shell {
+      overflow: auto;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    table {
+      width: 100%;
+      min-width: 980px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+      font-size: 14px;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #eff5f5;
+      color: #33464d;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    tbody tr:hover {
+      background: #f7fbfb;
+    }
+
+    .code-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 270px;
+    }
+
+    code {
+      font-family: Consolas, "SFMono-Regular", Menlo, monospace;
+      font-size: 13px;
+      color: #233136;
+      background: #eef4f4;
+      border: 1px solid #d7e5e4;
+      border-radius: 6px;
+      padding: 5px 7px;
+      white-space: nowrap;
+    }
+
+    .copy-button {
+      width: 34px;
+      height: 32px;
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+
+    .copy-button svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 2;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--chip);
+      color: var(--accent-strong);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .price {
+      color: var(--warn);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .empty {
+      display: none;
+      padding: 32px;
+      text-align: center;
+      color: var(--muted);
+      background: var(--panel);
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 780px) {
+      .page {
+        width: min(100% - 20px, 1180px);
+        padding-top: 20px;
+      }
+
+      .source {
+        text-align: left;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .ghost-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div class="title-row">
+        <div>
+          <h1>三角洲改枪码整理表</h1>
+          <p class="subtitle">按作者、武器、备注和价格整理，支持搜索、筛选和一键复制。</p>
+        </div>
+        <div class="source">来源：新建 文本文档.txt<br>更新：2026-08-03</div>
+      </div>
+
+      <section class="stats" aria-label="统计">
+        <div class="stat"><strong id="totalCount">0</strong><span>改枪码</span></div>
+        <div class="stat"><strong id="weaponCount">0</strong><span>武器</span></div>
+        <div class="stat"><strong id="authorCount">0</strong><span>作者</span></div>
+        <div class="stat"><strong id="shownCount">0</strong><span>当前显示</span></div>
+      </section>
+    </header>
+
+    <section class="toolbar" aria-label="筛选工具">
+      <div class="field">
+        <label for="searchInput">搜索</label>
+        <input id="searchInput" type="search" placeholder="输入武器、备注、作者或改枪码">
+      </div>
+      <div class="field">
+        <label for="weaponFilter">武器</label>
+        <select id="weaponFilter">
+          <option value="">全部武器</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="authorFilter">作者</label>
+        <select id="authorFilter">
+          <option value="">全部作者</option>
+        </select>
+      </div>
+      <button class="ghost-button" id="resetButton" type="button">重置筛选</button>
+    </section>
+
+    <section class="table-shell" aria-label="改枪码表格">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>作者</th>
+            <th>武器</th>
+            <th>类型</th>
+            <th>地图</th>
+            <th>改枪码</th>
+            <th>备注</th>
+            <th>价格</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </section>
+    <p class="empty" id="emptyState">没有匹配的改枪码。</p>
+
+    <footer>提示：点击改枪码右侧按钮即可复制。</footer>
+  </main>
+
+  <script>
+    const builds = [
+      { author: "小迟春日", weapon: "AKM", type: "突击步枪", map: "烽火地带", code: "6KS511G0D107PF1CQ8UD9", note: "颗秒ak", price: "" },
+      { author: "小迟春日", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6KS52400D107PF1CQ8UD9", note: "丐版36w", price: "36w" },
+      { author: "小迟春日", weapon: "SR-25", type: "射手步枪", map: "烽火地带", code: "6KBIGDC0D107PF1CQ8UD9", note: "短管骨架61w", price: "61w" },
+      { author: "青年钟意", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6K7NPR00D107PF1CQ8UD9", note: "共三80w", price: "80w" },
+      { author: "青年钟意", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6K7T9U40D107PF1CQ8UD9", note: "多口径相位3倍", price: "" },
+      { author: "青年钟意", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6KA9BNO0D107PF1CQ8UD9", note: "轻语相位3倍", price: "" },
+      { author: "董先生Gamers", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6K522RK0E6SPBD0A68SQU", note: "红点版", price: "" },
+      { author: "董先生Gamers", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6K523DS0E6SPBD0A68SQU", note: "2-4倍镜版", price: "" },
+      { author: "董先生Gamers", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6K8BFRO0D107PF1CQ8UD9", note: "2-4倍镜版（枪管正拉）", price: "" },
+      { author: "董先生Gamers", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6K5UAAC0E6SPBD0A68SQU", note: "3.5倍镜版", price: "" },
+      { author: "董先生Gamers", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6K8BD8K0D107PF1CQ8UD9", note: "3.5倍镜相位狙击版（枪管正拉）", price: "" },
+      { author: "董先生Gamers", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6K8BLMK0D107PF1CQ8UD9", note: "3.5倍相位狙击超稳定版（枪管正拉）", price: "" },
+      { author: "董先生Gamers", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6K8BIOO0D107PF1CQ8UD9", note: "3.5倍共三CT版稳定（枪管正拉）", price: "" },
+      { author: "董先生Gamers", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6K8UA600D107PF1CQ8UD9", note: "3倍", price: "" },
+      { author: "董先生Gamers", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6K90NF40D107PF1CQ8UD9", note: "3.5", price: "" },
+      { author: "小迟春日", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6K98JF80D107PF1CQ8UD9", note: "蓝管火控", price: "" },
+      { author: "小迟春日", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6K98MC40D107PF1CQ8UD9", note: "侵袭后握", price: "" },
+      { author: "小迟春日", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6K98P0S0D107PF1CQ8UD9", note: "侵袭后握轻语消音", price: "" },
+      { author: "小迟春日", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6KC0NL40D107PF1CQ8UD9", note: "镭射", price: "" },
+      { author: "小迟春日", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6KCGUC80D107PF1CQ8UD9", note: "无枪管", price: "" },
+      { author: "小迟春日", weapon: "M7", type: "战斗步枪", map: "烽火地带", code: "6KCHP0C0D107PF1CQ8UD9", note: "蓝管", price: "" },
+      { author: "小迟春日", weapon: "MK47", type: "突击步枪", map: "烽火地带", code: "6K8D13S08DJPVV4FTJID3", note: "共二轻语（62）", price: "" },
+      { author: "小迟春日", weapon: "MK47", type: "突击步枪", map: "烽火地带", code: "6K8IMJK03KM7QR4PBMEC9", note: "相位轻语（61）", price: "" },
+      { author: "小迟春日", weapon: "MK47", type: "突击步枪", map: "烽火地带", code: "6K8UCIO0D107PF1CQ8UD9", note: "幻影余烬FCC（56）", price: "" },
+      { author: "小迟春日", weapon: "MK47", type: "突击步枪", map: "烽火地带", code: "6K8UDUC0D107PF1CQ8UD9", note: "共二余烬钛金（52）", price: "" },
+      { author: "小迟春日", weapon: "MK47", type: "突击步枪", map: "烽火地带", code: "6K8UELC0D107PF1CQ8UD9", note: "余烬幻影CT版（正据枪）", price: "51万" },
+      { author: "小迟春日", weapon: "MK47", type: "突击步枪", map: "烽火地带", code: "6K8UFRS0D107PF1CQ8UD9", note: "余烬共二多口径（53）", price: "" },
+      { author: "小迟春日", weapon: "AR57", type: "突击步枪", map: "烽火地带", code: "6KCHQAC0D107PF1CQ8UD9", note: "半改38w", price: "38w" },
+      { author: "小迟春日", weapon: "AR57", type: "突击步枪", map: "烽火地带", code: "6KCHQKG0D107PF1CQ8UD9", note: "满改51w", price: "51w" },
+      { author: "小迟春日", weapon: "腾龙", type: "突击步枪", map: "烽火地带", code: "6K900FK0D107PF1CQ8UD9", note: "", price: "" }
+    ];
+
+    const tableBody = document.querySelector("#tableBody");
+    const searchInput = document.querySelector("#searchInput");
+    const weaponFilter = document.querySelector("#weaponFilter");
+    const authorFilter = document.querySelector("#authorFilter");
+    const resetButton = document.querySelector("#resetButton");
+    const emptyState = document.querySelector("#emptyState");
+
+    const iconCopy = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+        <rect x="9" y="9" width="11" height="11" rx="2"></rect>
+        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+      </svg>`;
+
+    function uniqueValues(key) {
+      return [...new Set(builds.map(item => item[key]))].sort((a, b) => a.localeCompare(b, "zh-CN"));
+    }
+
+    function fillFilter(select, values) {
+      values.forEach(value => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+      });
+    }
+
+    function renderRows() {
+      const keyword = searchInput.value.trim().toLowerCase();
+      const selectedWeapon = weaponFilter.value;
+      const selectedAuthor = authorFilter.value;
+
+      const filtered = builds.filter(item => {
+        const haystack = Object.values(item).join(" ").toLowerCase();
+        return (!keyword || haystack.includes(keyword))
+          && (!selectedWeapon || item.weapon === selectedWeapon)
+          && (!selectedAuthor || item.author === selectedAuthor);
+      });
+
+      tableBody.innerHTML = filtered.map((item, index) => `
+        <tr>
+          <td>${index + 1}</td>
+          <td>${item.author}</td>
+          <td><span class="tag">${item.weapon}</span></td>
+          <td>${item.type}</td>
+          <td>${item.map}</td>
+          <td>
+            <div class="code-cell">
+              <code>${item.code}</code>
+              <button class="copy-button" type="button" data-code="${item.code}" title="复制改枪码" aria-label="复制改枪码">${iconCopy}</button>
+            </div>
+          </td>
+          <td>${item.note || "未备注"}</td>
+          <td>${item.price ? `<span class="price">${item.price}</span>` : ""}</td>
+        </tr>
+      `).join("");
+
+      document.querySelector("#shownCount").textContent = filtered.length;
+      emptyState.style.display = filtered.length ? "none" : "block";
+    }
+
+    tableBody.addEventListener("click", async event => {
+      const button = event.target.closest("[data-code]");
+      if (!button) return;
+
+      await navigator.clipboard.writeText(button.dataset.code);
+      const oldTitle = button.title;
+      button.title = "已复制";
+      button.style.color = "var(--accent)";
+      setTimeout(() => {
+        button.title = oldTitle;
+        button.style.color = "";
+      }, 900);
+    });
+
+    resetButton.addEventListener("click", () => {
+      searchInput.value = "";
+      weaponFilter.value = "";
+      authorFilter.value = "";
+      renderRows();
+    });
+
+    searchInput.addEventListener("input", renderRows);
+    weaponFilter.addEventListener("change", renderRows);
+    authorFilter.addEventListener("change", renderRows);
+
+    fillFilter(weaponFilter, uniqueValues("weapon"));
+    fillFilter(authorFilter, uniqueValues("author"));
+    document.querySelector("#totalCount").textContent = builds.length;
+    document.querySelector("#weaponCount").textContent = uniqueValues("weapon").length;
+    document.querySelector("#authorCount").textContent = uniqueValues("author").length;
+    renderRows();
+  </script>
+</body>
+</html>
